@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Typography,
   Button,
@@ -7,10 +8,22 @@ import {
   MenuItem,
   Box,
 } from "@material-ui/core";
+
 import { useStyles } from "./HomePageStyles";
 
 const HomePage = () => {
   const classes = useStyles();
+  const [userName, setUserName] = useState("");
+
+  const handleClick = () => {
+    if (userName !== "") {
+      window.location.href = "/management";
+    }
+  };
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setUserName(event.target.value as string);
+  };
 
   return (
     <Box
@@ -22,17 +35,19 @@ const HomePage = () => {
       height="80vh"
     >
       <Typography variant="h1" className={classes.header}>
-        הספרייה של הסתיו
+        הספריה של הסתיו
       </Typography>
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
-        <Select>
-          <MenuItem value={10}>סתיו</MenuItem>
-          <MenuItem value={20}>גיל</MenuItem>
-          <MenuItem value={30}>רון</MenuItem>
+        <Select value={userName} onChange={handleChange}>
+          <MenuItem value={"סתיו"}>סתיו</MenuItem>
+          <MenuItem value={"גיל"}>גיל</MenuItem>
+          <MenuItem value={"רון"}>רון</MenuItem>
         </Select>
       </FormControl>
-      <Button className={classes.connectButton}>התחבר</Button>
+      <Button className={classes.connectButton} onClick={handleClick}>
+        התחבר
+      </Button>
     </Box>
   );
 };
