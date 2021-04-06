@@ -1,15 +1,11 @@
-import { Box, Toolbar } from "@material-ui/core";
-import EditUsers from "./EditUsers/EditUsers";
-import UserBookDetails from "./UserBookDetails/UserBookDetails";
+import { Toolbar } from "@material-ui/core";
+import ManageUsers from "./ManageUsers/ManageUsers";
 
 const MainContent = () => {
   return (
     <main>
       <Toolbar />
-      <Box display="flex">
-        <EditUsers name="stav" />
-        {/* <UserBookDetails /> */}
-      </Box>
+      <ManageUsers/>
     </main>
   );
 };
