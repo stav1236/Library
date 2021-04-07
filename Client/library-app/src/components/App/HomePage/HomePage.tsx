@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 
 import { useStyles } from "./HomePageStyles";
-import {manager} from "../../../models/manager"
+import { Manager } from "../../../models/Manager";
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 
@@ -60,7 +60,7 @@ const HomePage = () => {
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
         <Select value={userName} onChange={handleChange}>
-          {managersList.map((manager: manager) => (
+          {managersList.map((manager: Manager) => (
             <MenuItem value={manager.name}>{manager.name}</MenuItem>
           ))}
         </Select>
