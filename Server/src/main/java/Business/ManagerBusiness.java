@@ -1,6 +1,5 @@
 package Business;
 
-import Data.DataBase;
 import Data.ManagerDal;
 import Models.Manager;
 

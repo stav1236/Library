@@ -24,6 +24,17 @@ public class DataBase {
         return fieldToProjectObject;
     }
 
+
+    public List<DBObject> findByQurey(BasicDBObject query, DBCollection dbCollection) {
+        return dbCollection.find(query).toArray();
+    }
+
+    public DBObject findById(Integer _id, DBCollection dbCollection) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", _id);
+        return dbCollection.findOne(query);
+    }
+
     public List<DBObject> findALl(DBCollection dbCollection) {
         return dbCollection.find().toArray();
     }
