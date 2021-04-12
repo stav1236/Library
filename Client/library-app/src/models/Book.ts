@@ -1,5 +1,5 @@
-export type Book = {
+export interface Book {
   _id: Number;
   name: string;
   authorId: Number;
-};
+}

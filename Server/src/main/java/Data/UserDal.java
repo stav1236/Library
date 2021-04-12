@@ -31,4 +31,9 @@ public class UserDal {
 
         return users;
     }
+
+    public User findUserById(Integer id) {
+        DBObject result = dataBase.findById(id,usersCollection);
+        return gson.fromJson(result.toString(), User.class);
+    }
 }

@@ -38,4 +38,6 @@ public class DataBase {
     public List<DBObject> findALl(DBCollection dbCollection) {
         return dbCollection.find().toArray();
     }
+
+
 }

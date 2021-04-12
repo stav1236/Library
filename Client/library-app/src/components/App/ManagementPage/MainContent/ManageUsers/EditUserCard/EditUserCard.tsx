@@ -17,15 +17,20 @@ import { useStyles } from "./EditUserCardStyles";
 type CardProps = {
   id: Number;
   name: string;
+  callSetUser: Function;
 };
 
-const EditUserCard = ({ id, name }: CardProps) => {
+const EditUserCard = ({ id, name, callSetUser }: CardProps) => {
   const classes = useStyles();
+
+  const handleClick = async () => {
+    callSetUser(id);
+  };
 
   return (
     <Card className={classes.card}>
       <Box display="flex">
-        <ButtonBase className={classes.cardText}>
+        <ButtonBase className={classes.cardText} onClick={handleClick}>
           <CardContent>
             <Typography>
               מזהה:{id} שם:{name}

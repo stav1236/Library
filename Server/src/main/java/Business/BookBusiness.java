@@ -24,8 +24,8 @@ public class BookBusiness {
 
         for (Object match : matches) {
             HashMap<String, Object> jsonMap = new Gson().fromJson(match.toString(), HashMap.class);
-            Integer bookId =Integer.parseInt(jsonMap.get("bookId").toString());
-            Book book = dataLayer.findBookById(bookId);
+            double bookId = Double.parseDouble(jsonMap.get("bookId").toString());
+            Book book = dataLayer.findBookById((int) bookId);
             books.add(book);
         }
 

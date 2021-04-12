@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Typography,
   Button,
@@ -8,41 +7,37 @@ import {
   MenuItem,
   Box,
 } from "@material-ui/core";
-
+import { useState, useEffect } from "react";
+import { User } from "../../../models/User";
 import { useStyles } from "./HomePageStyles";
-import { Manager } from "../../../models/Manager";
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 
 const HomePage = () => {
   useEffect(() => {
-    getAllMannagers();
+    getAllUsers();
   });
 
   const classes = useStyles();
-  const [userName, setUserName] = useState("");
-  const [managersList, setManagersList] = useState([]);
+  const [connecedtUser, setConnectedUser] = useState("");
+  const [users, setUsers] = useState([]);
 
-  const getAllMannagers = async () => {
-    if ([...managersList].length === 0) {
-      console.log(process.env);
-      const response = await fetch(`${REACT_APP_SERVER_ADDRESS}/managers`);
-      console.log(response);
-      const allMannagers = await response.json();
-      console.log(allMannagers);
-
-      await setManagersList(allMannagers);
+  const getAllUsers = async () => {
+    if (users.length === 0) {
+      const response = await fetch(`${REACT_APP_SERVER_ADDRESS}/users`);
+      const usersList = await response.json();
+      setUsers(usersList);
     }
   };
 
   const handleClick = () => {
-    if (userName !== "") {
+    if (connecedtUser !== "") {
       window.location.href = "/management";
     }
   };
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setUserName(event.target.value as string);
+    setConnectedUser(event.target.value as string);
   };
 
   return (
@@ -59,9 +54,9 @@ const HomePage = () => {
       </Typography>
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
-        <Select value={userName} onChange={handleChange}>
-          {managersList.map((manager: Manager) => (
-            <MenuItem value={manager.name}>{manager.name}</MenuItem>
+        <Select value={connecedtUser} onChange={handleChange}>
+          {users.map((user: User) => (
+            <MenuItem value={user.name}>{user.name}</MenuItem>
           ))}
         </Select>
       </FormControl>

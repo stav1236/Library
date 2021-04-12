@@ -44,6 +44,10 @@ public final class App {
         //User API
         Spark.get("/users", ((request, response) ->
                 gsonIncludedAllFields.toJson(userBusiness.getAllUsers())));
+        Spark.get("/user/:id", ((request, response) -> {
+            Integer userId = Integer.parseInt(request.params(":id"));
+            return gsonIncludedAllFields.toJson(userBusiness.getUserById(userId));
+        }));
         //Book API
         Spark.get("/books", ((request, response) ->
                 gsonIncludedAllFields.toJson(bookBusiness.getAllBooks())));

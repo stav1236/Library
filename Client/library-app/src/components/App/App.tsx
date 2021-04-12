@@ -1,7 +1,7 @@
 import rtl from "jss-rtl";
 import { create } from "jss";
-import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+import { StylesProvider, jssPreset } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomePage from "./HomePage/HomePage";
@@ -12,20 +12,20 @@ const rtlTheme = createMuiTheme({ direction: "rtl" });
 
 const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/management">
-          <ManagementPage />
-        </Route>
-        <Route path="/">
-          <StylesProvider jss={jss}>
-            <ThemeProvider theme={rtlTheme}>
-              <HomePage />
-            </ThemeProvider>{" "}
-          </StylesProvider>
-        </Route>
-      </Switch>
-    </Router>
+      <Router>
+        <Switch>
+          <Route path="/management">
+            <ManagementPage />
+          </Route>
+          <Route path="/">
+            <StylesProvider jss={jss}>
+              <ThemeProvider theme={rtlTheme}>
+                <HomePage />
+              </ThemeProvider>{" "}
+            </StylesProvider>
+          </Route>
+        </Switch>
+      </Router>
   );
 };
 

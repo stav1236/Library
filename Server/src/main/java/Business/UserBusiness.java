@@ -11,5 +11,8 @@ public class UserBusiness {
     public ArrayList<User> getAllUsers() {
         return dataLayer.findAllUsers();
     }
+    public User getUserById(Integer id) {
+        return dataLayer.findUserById(id);
+    }
 
 }
