@@ -1,5 +1,5 @@
 export interface User {
-  _id: Number;
+  _id: number;
   name: string;
   favBook: Number;
 }

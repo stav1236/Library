@@ -14,14 +14,14 @@ const ManageUsers = () => {
     getAllUsers();
     getUserBookList();
   });
+
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState({
     _id: -999,
     name: "",
-    favBook: "",
+    favBook: -999,
   });
-  //check how to do this with function and no with state =>
   const [userBookList, setUserBookList] = useState([]);
 
   const getAllUsers = async () => {
@@ -48,6 +48,27 @@ const ManageUsers = () => {
     }
   };
 
+  const updateFavBook = async (userId: number, bookId: number) => {
+    const response = await fetch(
+      `${REACT_APP_SERVER_ADDRESS}/update/favBook/${userId}/${bookId}`,
+      {
+        method: "POST",
+      }
+    );
+    const newUser = await response.json();
+    setSelectedUser(newUser);
+  };
+
+  const deleteBook = async (bookId: number) => {
+    await fetch(
+      `${REACT_APP_SERVER_ADDRESS}/remove/user/book/${selectedUser._id}/${bookId}`,
+      {
+        method: "POST",
+      }
+    );
+    setUserBookList(userBookList.filter((book :Book) => book._id !== bookId))
+  };
+
   return (
     <div>
       <Grid container spacing={10}>
@@ -72,10 +93,10 @@ const ManageUsers = () => {
           </Box>
           {userBookList.map((book: Book) => (
             <UserBookCard
-              id={book._id}
-              bookName={book.name}
-              authorId={book.authorId}
-              favBook={selectedUser.favBook}
+              book={book}
+              user={selectedUser}
+              updateFavBook={updateFavBook}
+              deleteBook = {deleteBook}
             />
           ))}
         </Grid>

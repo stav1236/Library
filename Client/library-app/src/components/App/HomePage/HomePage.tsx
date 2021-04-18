@@ -19,7 +19,7 @@ const HomePage = () => {
   });
 
   const classes = useStyles();
-  const [connecedtUser, setConnectedUser] = useState("");
+  const [connecedtUserId, setConnectedUserId] = useState(-999);
   const [users, setUsers] = useState([]);
 
   const getAllUsers = async () => {
@@ -31,13 +31,9 @@ const HomePage = () => {
   };
 
   const handleClick = () => {
-    if (connecedtUser !== "") {
+    if (connecedtUserId !== -999) {
       window.location.href = "/management";
     }
-  };
-
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setConnectedUser(event.target.value as string);
   };
 
   return (
@@ -54,13 +50,21 @@ const HomePage = () => {
       </Typography>
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
-        <Select value={connecedtUser} onChange={handleChange}>
+        <Select
+          onChange={(event) => setConnectedUserId(event.target.value as number)}
+        >
           {users.map((user: User) => (
-            <MenuItem value={user.name}>{user.name}</MenuItem>
+            <MenuItem key={user._id} value={user._id}>
+              {user.name}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
-      <Button className={classes.connectButton} onClick={handleClick}>
+      <Button
+        className={classes.connectButton}
+        onClick={handleClick}
+        disabled={connecedtUserId === -999}
+      >
         התחבר
       </Button>
     </Box>

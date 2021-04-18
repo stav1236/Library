@@ -13,17 +13,19 @@ import StarIcon from "@material-ui/icons/Star";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { useStyles } from "./UserBookCardStyles";
+import { Book } from "../../../../../../models/Book";
+import { User } from "../../../../../../models/User";
 
 type CardProps = {
-  id: Number;
-  bookName: string;
-  authorId: Number;
-  favBook: String;
+  book: Book;
+  user: User;
+  updateFavBook: Function;
+  deleteBook: Function;
 };
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 
-const UserBookCard = ({ id, bookName, authorId, favBook }: CardProps) => {
+const UserBookCard = ({ book, user, updateFavBook, deleteBook }: CardProps) => {
   useEffect(() => {
     getAuthorName();
   });
@@ -33,14 +35,18 @@ const UserBookCard = ({ id, bookName, authorId, favBook }: CardProps) => {
 
   const getAuthorName = async () => {
     const response = await fetch(
-      `${REACT_APP_SERVER_ADDRESS}/author/name/${authorId}`
+      `${REACT_APP_SERVER_ADDRESS}/author/name/${book.authorId}`
     );
     const name = await response.json();
     setAuthorName(name);
   };
 
   const handleClick = async () => {
-    console.log(bookName);
+    updateFavBook(user._id, book._id);
+  };
+
+  const removeBook = async () => {
+    deleteBook(book._id);
   };
 
   return (
@@ -48,7 +54,7 @@ const UserBookCard = ({ id, bookName, authorId, favBook }: CardProps) => {
       <Box display="flex">
         <CardContent className={classes.cardText}>
           <Typography>
-            מזהה:{id} שם:{bookName}
+            מזהה:{book._id} שם:{book.name}
           </Typography>
           <Typography>סופר:{authorName}</Typography>
         </CardContent>
@@ -57,12 +63,12 @@ const UserBookCard = ({ id, bookName, authorId, favBook }: CardProps) => {
           <Box display="flex">
             <Checkbox
               onClick={handleClick}
-              checked={bookName === favBook}
+              checked={book._id === user.favBook}
               icon={<StarIcon />}
               checkedIcon={<StarIcon className={classes.yellowStart} />}
               name="checkedH"
             />
-            <IconButton>
+            <IconButton onClick={removeBook}>
               <DeleteIcon />
             </IconButton>
           </Box>

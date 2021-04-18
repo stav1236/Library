@@ -34,7 +34,7 @@ public class BookDal {
     public List<DBObject> findMatchList(Integer userId) {
         BasicDBObject query = new BasicDBObject();
         query.put("userId", userId);
-        return dataBase.findByQurey(query,usersBooksCollection);
+        return dataBase.findByQuery(query,usersBooksCollection);
     }
 
     public Book findBookById(Integer _id) {

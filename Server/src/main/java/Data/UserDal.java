@@ -2,10 +2,7 @@ package Data;
 
 import Models.User;
 import com.google.gson.Gson;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ public class UserDal {
     private MongoClient mongoClient = new MongoClient();
     private DB stavDB = mongoClient.getDB("StavDB");
     private DBCollection usersCollection = stavDB.getCollection("Users");
+    private DBCollection usersBooksCollection = stavDB.getCollection("UsersBooks");
     private Gson gson = new Gson();
 
     public UserDal() {
@@ -33,7 +31,28 @@ public class UserDal {
     }
 
     public User findUserById(Integer id) {
-        DBObject result = dataBase.findById(id,usersCollection);
+        DBObject result = dataBase.findById(id, usersCollection);
         return gson.fromJson(result.toString(), User.class);
+    }
+
+    public boolean removeBookFromUser(Integer userId, Integer bookId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("userId", userId);
+        query.put("bookId", bookId);
+        DBObject result = dataBase.removeByQuery(query, usersBooksCollection);
+        return gson.fromJson(result.toString(), User.class) != null;
+    }
+
+    public void updateFavBook(Integer userId,Integer bookId){
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put("favBook", bookId);
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument);
+
+        dataBase.updateByQuery(query,updateObject,usersCollection);
     }
 }

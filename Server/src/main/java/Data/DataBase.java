@@ -1,14 +1,7 @@
 package Data;
 
-import Models.Manager;
-import com.google.gson.Gson;
-
 import com.mongodb.*;
-import com.mongodb.util.JSON;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class DataBase {
@@ -24,8 +17,7 @@ public class DataBase {
         return fieldToProjectObject;
     }
 
-
-    public List<DBObject> findByQurey(BasicDBObject query, DBCollection dbCollection) {
+    public List<DBObject> findByQuery(BasicDBObject query, DBCollection dbCollection) {
         return dbCollection.find(query).toArray();
     }
 
@@ -39,5 +31,11 @@ public class DataBase {
         return dbCollection.find().toArray();
     }
 
+    public DBObject removeByQuery(BasicDBObject query, DBCollection dbCollection) {
+        return dbCollection.findAndRemove(query);
+    }
 
+    public void updateByQuery(BasicDBObject query, BasicDBObject updateObject, DBCollection dbCollection) {
+        dbCollection.update(query, updateObject);
+    }
 }
