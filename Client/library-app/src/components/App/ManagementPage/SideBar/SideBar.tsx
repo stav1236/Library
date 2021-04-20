@@ -15,10 +15,6 @@ const SideBar = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const routePage = (path: string) => {
-    history.push(path);
-  };
-
   return (
     <Drawer
       anchor="right"

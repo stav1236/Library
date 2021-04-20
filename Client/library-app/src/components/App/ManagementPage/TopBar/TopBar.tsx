@@ -13,8 +13,7 @@ import { useHistory } from "react-router-dom";
 import { useStyles } from "./TopBarStyles";
 import { User } from "models/User";
 import StoreStateType from "redux/StoreStateType";
-
-const { REACT_APP_SERVER_ADDRESS } = process.env;
+import { genericFetch } from "utils/utils";
 
 const TopBar = () => {
   const classes = useStyles();
@@ -27,10 +26,11 @@ const TopBar = () => {
   });
 
   const getFavBookName = async () => {
-    const response = await fetch(
-      `${REACT_APP_SERVER_ADDRESS}/book/name/${loggedUser.favBook}`
+    const bookName = await genericFetch(
+      `/book/name/${loggedUser.favBook}`,
+      "GET",
+      true
     );
-    const bookName = await response.json();
     setFavBookname(bookName);
   };
 

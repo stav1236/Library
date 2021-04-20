@@ -15,8 +15,7 @@ import { User } from "models/User";
 import { useStyles } from "./HomePageStyles";
 import { setUser } from "redux/User/UserActionCreators";
 import StoreStateType from "redux/StoreStateType";
-
-const { REACT_APP_SERVER_ADDRESS } = process.env;
+import { genericFetch } from "utils/utils";
 
 const HomePage = () => {
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
@@ -30,8 +29,7 @@ const HomePage = () => {
 
   const getAllUsers = async () => {
     if (users.length === 0) {
-      const response = await fetch(`${REACT_APP_SERVER_ADDRESS}/users`);
-      const usersList = await response.json();
+      const usersList = await genericFetch("/users", "GET", true);
       setUsers(usersList);
     }
   };

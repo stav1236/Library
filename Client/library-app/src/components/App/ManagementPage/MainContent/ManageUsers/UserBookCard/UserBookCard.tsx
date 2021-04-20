@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useStyles } from "./UserBookCardStyles";
 import { Book } from "models/Book";
 import { User } from "models/User";
+import { genericFetch } from "utils/utils";
 
 type CardProps = {
   book: Book;
@@ -22,8 +23,6 @@ type CardProps = {
   updateFavBook: Function;
   deleteBook: Function;
 };
-
-const { REACT_APP_SERVER_ADDRESS } = process.env;
 
 const UserBookCard = ({ book, user, updateFavBook, deleteBook }: CardProps) => {
   useEffect(() => {
@@ -34,10 +33,11 @@ const UserBookCard = ({ book, user, updateFavBook, deleteBook }: CardProps) => {
   const [authorName, setAuthorName] = useState("");
 
   const getAuthorName = async () => {
-    const response = await fetch(
-      `${REACT_APP_SERVER_ADDRESS}/author/name/${book.authorId}`
+    const name = await genericFetch(
+      `/author/name/${book.authorId}`,
+      "GET",
+      true
     );
-    const name = await response.json();
     setAuthorName(name);
   };
 
