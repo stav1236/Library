@@ -7,24 +7,61 @@ import {
   Box,
   ButtonBase,
   Divider,
+  Dialog,
+  DialogContent,
+  Button,
+  TextField,
 } from "@material-ui/core";
-
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import { User } from "../../../../../../models/User";
 import { useStyles } from "./EditUserCardStyles";
+import StoreStateType from "../../../../../../redux/StoreStateType";
 
 type CardProps = {
   id: Number;
   name: string;
   callSetUser: Function;
+  deleteUser: Function;
+  setUserName: Function;
 };
 
-const EditUserCard = ({ id, name, callSetUser }: CardProps) => {
+const EditUserCard = ({
+  id,
+  name,
+  callSetUser,
+  deleteUser,
+  setUserName,
+}: CardProps) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [newName, setNewName] = useState("");
+  const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onsubmit = async () => {
+    setUserName(id, newName);
+    handleClose();
+  };
 
   const handleClick = async () => {
     callSetUser(id);
+  };
+
+  const removeUser = async () => {
+    if (loggedUser._id !== id) {
+      deleteUser(id);
+    }
   };
 
   return (
@@ -40,15 +77,24 @@ const EditUserCard = ({ id, name, callSetUser }: CardProps) => {
         <Divider orientation="vertical" flexItem />
         <CardActions>
           <Box display="flex">
-            <IconButton>
+            <IconButton onClick={handleClickOpen}>
               <EditIcon />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={removeUser}>
               <DeleteIcon />
             </IconButton>
           </Box>
         </CardActions>
       </Box>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogContent>
+          <TextField
+            value={newName}
+            onChange={(e) => setNewName(e.target.value as string)}
+          />
+          <Button onClick={onsubmit}>שנה</Button>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };

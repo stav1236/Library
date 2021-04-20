@@ -10,4 +10,8 @@ public class Book {
         this.name = name;
         this.authorId = authorId;
     }
+
+    public String getName() {
+        return name;
+    }
 }

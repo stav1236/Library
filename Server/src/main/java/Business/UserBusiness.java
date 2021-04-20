@@ -20,8 +20,16 @@ public class UserBusiness {
         return dataLayer.removeBookFromUser(userId, bookId);
     }
 
-    public void updateFavBook(Integer userId,Integer bookId) {
-        dataLayer.updateFavBook(userId,bookId);
+    public User deleteUserById(Integer userId) {
+        dataLayer.removeUserBookList(userId);
+        return dataLayer.removeUserById(userId);
     }
 
+    public void updateFavBook(Integer userId, Integer bookId) {
+        dataLayer.updateFavBook(userId, bookId);
+    }
+
+    public void updateUserName(Integer userId, String name) {
+        dataLayer.updateName(userId, name);
+    }
 }

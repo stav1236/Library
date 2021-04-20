@@ -7,20 +7,26 @@ import {
   MenuItem,
   Box,
 } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+
 import { User } from "../../../models/User";
 import { useStyles } from "./HomePageStyles";
+import { setUser } from "../../../redux/User/UserActionCreators";
+import StoreStateType from "../../../redux/StoreStateType";
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 
 const HomePage = () => {
+  const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
+  const [users, setUsers] = useState([]);
+  const classes = useStyles();
+  const history = useHistory();
+
   useEffect(() => {
     getAllUsers();
-  });
-
-  const classes = useStyles();
-  const [connecedtUserId, setConnectedUserId] = useState(-999);
-  const [users, setUsers] = useState([]);
+  }, [users]);
 
   const getAllUsers = async () => {
     if (users.length === 0) {
@@ -30,9 +36,14 @@ const HomePage = () => {
     }
   };
 
+  const changeUser = (id: number) => {
+    const user: Array<User> = users.filter((user: User) => user._id === id);
+    setUser(user[0]);
+  };
+
   const handleClick = () => {
-    if (connecedtUserId !== -999) {
-      window.location.href = "/management";
+    if (loggedUser._id !== -999) {
+      history.push("/management");
     }
   };
 
@@ -51,7 +62,8 @@ const HomePage = () => {
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
         <Select
-          onChange={(event) => setConnectedUserId(event.target.value as number)}
+          value={loggedUser._id}
+          onChange={(event) => changeUser(event.target.value as number)}
         >
           {users.map((user: User) => (
             <MenuItem key={user._id} value={user._id}>
@@ -63,7 +75,7 @@ const HomePage = () => {
       <Button
         className={classes.connectButton}
         onClick={handleClick}
-        disabled={connecedtUserId === -999}
+        disabled={loggedUser._id === -999}
       >
         התחבר
       </Button>

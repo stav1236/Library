@@ -31,8 +31,12 @@ public class DataBase {
         return dbCollection.find().toArray();
     }
 
-    public DBObject removeByQuery(BasicDBObject query, DBCollection dbCollection) {
+    public DBObject removeAndFindByQuery(BasicDBObject query, DBCollection dbCollection) {
         return dbCollection.findAndRemove(query);
+    }
+
+    public void removeByQuery(BasicDBObject query, DBCollection dbCollection) {
+        dbCollection.remove(query);
     }
 
     public void updateByQuery(BasicDBObject query, BasicDBObject updateObject, DBCollection dbCollection) {

@@ -4,10 +4,7 @@ import java.util.HashMap;
 
 import Business.AuthorBusiness;
 import Business.BookBusiness;
-import Business.ManagerBusiness;
 import Business.UserBusiness;
-import Data.BookDal;
-import Models.User;
 import spark.*;
 import com.google.gson.Gson;
 
@@ -28,7 +25,6 @@ public final class App {
     }
 
     public static void main(String[] args) {
-        ManagerBusiness managerBusiness = new ManagerBusiness();
         UserBusiness userBusiness = new UserBusiness();
         AuthorBusiness authorBusiness = new AuthorBusiness();
         BookBusiness bookBusiness = new BookBusiness();
@@ -38,9 +34,7 @@ public final class App {
         staticFiles.location("/public");
 
         App.apply(); // Call this before mapping thy routes
-        //manager API
-        Spark.get("/managers", ((request, response) ->
-                gsonIncludedAllFields.toJson(managerBusiness.getAllManagers())));
+
         //User API
         Spark.get("/users", ((request, response) ->
                 gsonIncludedAllFields.toJson(userBusiness.getAllUsers())));
@@ -53,15 +47,29 @@ public final class App {
             Integer bookId = Integer.parseInt(request.params(":bookId"));
             return gsonIncludedAllFields.toJson(userBusiness.deleteBookFromUser(userId, bookId));
         }));
+        Spark.post("/remove/user/:userId", ((request, response) -> {
+            Integer userId = Integer.parseInt(request.params(":userId"));
+            return gsonIncludedAllFields.toJson(userBusiness.deleteUserById(userId));
+        }));
         Spark.post("/update/favBook/:userId/:bookId", ((request, response) -> {
             Integer userId = Integer.parseInt(request.params(":userId"));
             Integer bookId = Integer.parseInt(request.params(":bookId"));
             userBusiness.updateFavBook(userId, bookId);
             return gsonIncludedAllFields.toJson(userBusiness.getUserById(userId));
         }));
+        Spark.post("/update/name/:userId/:name", ((request, response) -> {
+            Integer userId = Integer.parseInt(request.params(":userId"));
+            String name = request.params(":name");
+            userBusiness.updateUserName(userId, name);
+            return gsonIncludedAllFields.toJson(userBusiness.getUserById(userId));
+        }));
         //Book API
         Spark.get("/books", ((request, response) ->
                 gsonIncludedAllFields.toJson(bookBusiness.getAllBooks())));
+        Spark.get("/book/name/:id", ((request, response) -> {
+            Integer bookId = Integer.parseInt(request.params(":id"));
+            return gsonIncludedAllFields.toJson(bookBusiness.getBookNameById(bookId));
+        }));
         Spark.get("/userBookList/:id", ((request, response) -> {
             Integer userId = Integer.parseInt(request.params(":id"));
             return gsonIncludedAllFields.toJson(bookBusiness.getUserBookList(userId));

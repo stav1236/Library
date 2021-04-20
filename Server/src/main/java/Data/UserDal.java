@@ -39,11 +39,24 @@ public class UserDal {
         BasicDBObject query = new BasicDBObject();
         query.put("userId", userId);
         query.put("bookId", bookId);
-        DBObject result = dataBase.removeByQuery(query, usersBooksCollection);
+        DBObject result = dataBase.removeAndFindByQuery(query, usersBooksCollection);
         return gson.fromJson(result.toString(), User.class) != null;
     }
 
-    public void updateFavBook(Integer userId,Integer bookId){
+    public User removeUserById(Integer userId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+        DBObject result = dataBase.removeAndFindByQuery(query, usersCollection);
+        return gson.fromJson(result.toString(), User.class);
+    }
+
+    public void removeUserBookList(Integer userId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("userId", userId);
+        dataBase.removeByQuery(query, usersBooksCollection);
+    }
+
+    public void updateFavBook(Integer userId, Integer bookId) {
         BasicDBObject query = new BasicDBObject();
         query.put("_id", userId);
 
@@ -53,6 +66,19 @@ public class UserDal {
         BasicDBObject updateObject = new BasicDBObject();
         updateObject.put("$set", newDocument);
 
-        dataBase.updateByQuery(query,updateObject,usersCollection);
+        dataBase.updateByQuery(query, updateObject, usersCollection);
+    }
+
+    public void updateName(Integer userId, String name) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", userId);
+
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put("name", name);
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument);
+
+        dataBase.updateByQuery(query, updateObject, usersCollection);
     }
 }

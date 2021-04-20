@@ -12,6 +12,10 @@ import java.util.List;
 public class BookBusiness {
     private BookDal dataLayer = new BookDal();
 
+    public String getBookNameById(Integer bookId) {
+        return dataLayer.findBookById(bookId).getName();
+    }
+
     public ArrayList<Book> getAllBooks() {
         return dataLayer.findAllBooks();
     }

@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   addBookButton: {
     marginRight: "6vw",
     width: "8vw",
@@ -12,4 +12,8 @@ export const useStyles = makeStyles({
       backgroundColor: "rgb(3, 15, 145)",
     },
   },
-});
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: "25vw",
+  },
+}));
