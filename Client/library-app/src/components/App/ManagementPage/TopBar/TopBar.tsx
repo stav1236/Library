@@ -11,8 +11,8 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useStyles } from "./TopBarStyles";
-import { User } from "../../../../models/User";
-import StoreStateType from "../../../../redux/StoreStateType";
+import { User } from "models/User";
+import StoreStateType from "redux/StoreStateType";
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 
@@ -35,7 +35,7 @@ const TopBar = () => {
   };
 
   const handleClick = () => {
-    history.push("/");
+    history.push("/home");
   };
 
   return (

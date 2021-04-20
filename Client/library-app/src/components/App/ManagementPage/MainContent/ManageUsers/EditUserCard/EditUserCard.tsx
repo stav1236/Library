@@ -17,9 +17,10 @@ import { useSelector } from "react-redux";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import { User } from "../../../../../../models/User";
+import { User } from "models/User";
 import { useStyles } from "./EditUserCardStyles";
-import StoreStateType from "../../../../../../redux/StoreStateType";
+import StoreStateType from "redux/StoreStateType";
+import useDialog from "customHooks/useDialog";
 
 type CardProps = {
   id: Number;
@@ -37,21 +38,13 @@ const EditUserCard = ({
   setUserName,
 }: CardProps) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const { open, changeMod } = useDialog();
   const [newName, setNewName] = useState("");
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const onsubmit = async () => {
     setUserName(id, newName);
-    handleClose();
+    changeMod();
   };
 
   const handleClick = async () => {
@@ -77,7 +70,7 @@ const EditUserCard = ({
         <Divider orientation="vertical" flexItem />
         <CardActions>
           <Box display="flex">
-            <IconButton onClick={handleClickOpen}>
+            <IconButton onClick={changeMod}>
               <EditIcon />
             </IconButton>
             <IconButton onClick={removeUser}>
@@ -86,7 +79,7 @@ const EditUserCard = ({
           </Box>
         </CardActions>
       </Box>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={changeMod}>
         <DialogContent>
           <TextField
             value={newName}

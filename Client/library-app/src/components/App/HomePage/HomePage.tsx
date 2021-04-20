@@ -11,10 +11,10 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import { User } from "../../../models/User";
+import { User } from "models/User";
 import { useStyles } from "./HomePageStyles";
-import { setUser } from "../../../redux/User/UserActionCreators";
-import StoreStateType from "../../../redux/StoreStateType";
+import { setUser } from "redux/User/UserActionCreators";
+import StoreStateType from "redux/StoreStateType";
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 

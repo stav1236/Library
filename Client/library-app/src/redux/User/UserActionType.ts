@@ -1,4 +1,4 @@
-import { User } from "../../models/User";
+import { User } from "models/User";
 
 export const SET_USER = "SET_USER";
 interface SetUser {

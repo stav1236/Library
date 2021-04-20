@@ -16,10 +16,11 @@ import { useState, useEffect } from "react";
 import { useStyles } from "./ManageUserStyles";
 import EditUserCard from "./EditUserCard/EditUserCard";
 import UserBookCard from "./UserBookCard/UserBookCard";
-import { User } from "../../../../../models/User";
-import { Book } from "../../../../../models/Book";
-import StoreStateType from "../../../../../redux/StoreStateType";
-import { setUser } from "../../../../../redux/User/UserActionCreators";
+import { User } from "models/User";
+import { Book } from "models/Book";
+import StoreStateType from "redux/StoreStateType";
+import { setUser } from "redux/User/UserActionCreators";
+import useDialog from "customHooks/useDialog";
 
 const { REACT_APP_SERVER_ADDRESS } = process.env;
 
@@ -31,7 +32,7 @@ const ManageUsers = () => {
   });
 
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const { open, changeMod } = useDialog();
   const [users, setUsers] = useState<Array<User>>([]);
   const [books, setBooks] = useState<Array<Book>>([]);
   const [selectedUser, setSelectedUser] = useState({
@@ -39,7 +40,8 @@ const ManageUsers = () => {
     name: "",
     favBook: -999,
   });
-  const [userBookList, setUserBookList] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(-999);
+  const [userBookList, setUserBookList] = useState<Array<Book>>([]);
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   const getAllUsers = async () => {
@@ -83,6 +85,9 @@ const ManageUsers = () => {
     );
     const newUser = await response.json();
     setSelectedUser(newUser);
+    if (newUser._id === loggedUser._id) {
+      setUser(newUser);
+    }
   };
 
   const updateUserName = async (userId: number, name: string) => {
@@ -129,16 +134,26 @@ const ManageUsers = () => {
     setUsers(users.filter((user: User) => user._id !== userId));
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const findBookFromList = (list: Array<Book>, bookId: number) => {
+    return list.filter((book: Book) => book._id == bookId);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const bookInNotBookList = () => {
+    return !findBookFromList(userBookList, selectedBook).length;
   };
 
   const onsubmit = async () => {
-    handleClose();
+    if (bookInNotBookList()) {
+      await fetch(
+        `${REACT_APP_SERVER_ADDRESS}/user/book/${selectedUser._id}/${selectedBook}`,
+        {
+          method: "POST",
+        }
+      );
+      const newBook: Book = findBookFromList(books, selectedBook)[0];
+      setUserBookList([...userBookList, newBook]);
+    }
+    changeMod();
   };
 
   return (
@@ -161,23 +176,30 @@ const ManageUsers = () => {
             display={selectedUser._id !== -999 ? "flex" : "none"}
             justifyContent="space-between"
             alignItems="ceneter"
+            className={classes.marginTop}
           >
             <Typography>הספרים שקרא {selectedUser.name}:</Typography>
-            <Button className={classes.addBookButton} onClick={handleClickOpen}>
+            <Button className={classes.addBookButton} onClick={changeMod}>
               הוסף ספר
             </Button>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={changeMod}>
               <DialogContent>
-                <FormControl className={classes.formControl}>
-                  <Select>
-                    {books.map((book: Book) => (
-                      <MenuItem key={book._id} value={book._id}>
-                        {book.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Button onClick={onsubmit}>הוסף ספר</Button>
+                <Box display="flex">
+                  <FormControl className={classes.formControl}>
+                    <Select
+                      onChange={(event) =>
+                        setSelectedBook(event.target.value as number)
+                      }
+                    >
+                      {books.map((book: Book) => (
+                        <MenuItem key={book._id} value={book._id}>
+                          {book.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <Button onClick={onsubmit}>הוסף</Button>
+                </Box>
               </DialogContent>
             </Dialog>
           </Box>

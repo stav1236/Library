@@ -2,6 +2,7 @@ package Business;
 
 import Data.UserDal;
 import Models.User;
+import com.mongodb.WriteResult;
 
 import java.util.ArrayList;
 
@@ -31,5 +32,9 @@ public class UserBusiness {
 
     public void updateUserName(Integer userId, String name) {
         dataLayer.updateName(userId, name);
+    }
+
+    public WriteResult addBookToUser(Integer userId, Integer bookId) {
+        return dataLayer.insertBookToUser(userId, bookId);
     }
 }

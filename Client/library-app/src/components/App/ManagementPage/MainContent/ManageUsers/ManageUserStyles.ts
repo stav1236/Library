@@ -16,4 +16,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     margin: theme.spacing(1),
     minWidth: "25vw",
   },
+  marginTop: {
+    marginTop: "2vh",
+  },
 }));

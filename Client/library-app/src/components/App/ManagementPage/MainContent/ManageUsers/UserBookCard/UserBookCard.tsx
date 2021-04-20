@@ -13,8 +13,8 @@ import StarIcon from "@material-ui/icons/Star";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { useStyles } from "./UserBookCardStyles";
-import { Book } from "../../../../../../models/Book";
-import { User } from "../../../../../../models/User";
+import { Book } from "models/Book";
+import { User } from "models/User";
 
 type CardProps = {
   book: Book;

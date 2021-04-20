@@ -8,15 +8,6 @@ public class DataBase {
     public DataBase() {
     }
 
-    protected BasicDBObject ProjectionsFields(String... fields) {
-        BasicDBObject fieldToProjectObject = new BasicDBObject();
-        for (String field : fields) {
-            fieldToProjectObject.put(field, true);
-        }
-
-        return fieldToProjectObject;
-    }
-
     public List<DBObject> findByQuery(BasicDBObject query, DBCollection dbCollection) {
         return dbCollection.find(query).toArray();
     }
@@ -41,5 +32,9 @@ public class DataBase {
 
     public void updateByQuery(BasicDBObject query, BasicDBObject updateObject, DBCollection dbCollection) {
         dbCollection.update(query, updateObject);
+    }
+
+    public WriteResult insertOneDocument(DBObject document, DBCollection dbCollection) {
+        return dbCollection.insert(document);
     }
 }

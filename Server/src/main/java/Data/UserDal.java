@@ -81,4 +81,12 @@ public class UserDal {
 
         dataBase.updateByQuery(query, updateObject, usersCollection);
     }
+
+    public WriteResult insertBookToUser(Integer userId, Integer bookId) {
+        DBObject newDocument = new BasicDBObject();
+        newDocument.put("userId", userId);
+        newDocument.put("bookId", bookId);
+
+        return dataBase.insertOneDocument(newDocument,usersBooksCollection);
+    }
 }
