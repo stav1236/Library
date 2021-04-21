@@ -1,5 +1,4 @@
 import {
-  Typography,
   Button,
   FormControl,
   InputLabel,
@@ -17,6 +16,8 @@ import { User } from "models/User";
 import StoreStateType from "redux/StoreStateType";
 import { setUser } from "redux/User/UserActionCreators";
 import { genericFetch, URL, UNDIFNED_ID } from "utils/utils";
+
+import logo from "logo.jpg";
 
 const HomePage = () => {
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
@@ -55,9 +56,7 @@ const HomePage = () => {
       width="100vw"
       height="80vh"
     >
-      <Typography variant="h1" className={classes.header}>
-        הספריה של הסתיו
-      </Typography>
+      <img src={logo} />
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
         <Select
