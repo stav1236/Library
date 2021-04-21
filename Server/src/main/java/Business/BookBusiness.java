@@ -12,6 +12,10 @@ import java.util.List;
 public class BookBusiness {
     private BookDal dataLayer = new BookDal();
 
+    public Book getBookById(Integer id) {
+        return dataLayer.findBookById(id);
+    }
+
     public String getBookNameById(Integer bookId) {
         return dataLayer.findBookById(bookId).getName();
     }
@@ -35,4 +39,14 @@ public class BookBusiness {
 
         return books;
     }
+
+    public Book deleteBookById(Integer bookId) {
+        dataLayer.removeBookFromUsers(bookId);
+        return dataLayer.removeBookById(bookId);
+    }
+
+    public void updateBookName(Integer bookId, String name) {
+        dataLayer.updateName(bookId, name);
+    }
+
 }

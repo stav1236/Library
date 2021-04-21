@@ -2,6 +2,7 @@ package Data;
 
 import Models.Author;
 import Models.Book;
+import Models.User;
 import com.google.gson.Gson;
 import com.mongodb.*;
 
@@ -40,5 +41,31 @@ public class BookDal {
     public Book findBookById(Integer _id) {
         DBObject result = dataBase.findById(_id, booksCollection);
         return gson.fromJson(result.toString(), Book.class);
+    }
+
+    public void removeBookFromUsers(Integer bookId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("bookId", bookId);
+        dataBase.removeByQuery(query, usersBooksCollection);
+    }
+
+    public Book removeBookById(Integer bookId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", bookId);
+        DBObject result = dataBase.removeAndFindByQuery(query, booksCollection);
+        return gson.fromJson(result.toString(), Book.class);
+    }
+
+    public void updateName(Integer bookId, String name) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", bookId);
+
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put("name", name);
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument);
+
+        dataBase.updateByQuery(query, updateObject, booksCollection);
     }
 }

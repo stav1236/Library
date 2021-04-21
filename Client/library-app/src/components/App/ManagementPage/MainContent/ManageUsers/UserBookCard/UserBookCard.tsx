@@ -8,14 +8,13 @@ import {
   Divider,
   Checkbox,
 } from "@material-ui/core";
-import { useState, useEffect } from "react";
 import StarIcon from "@material-ui/icons/Star";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { useStyles } from "./UserBookCardStyles";
 import { Book } from "models/Book";
 import { User } from "models/User";
-import { genericFetch } from "utils/utils";
+import useAuthorName from "customHooks/useAuthorName";
 
 type CardProps = {
   book: Book;
@@ -25,21 +24,8 @@ type CardProps = {
 };
 
 const UserBookCard = ({ book, user, updateFavBook, deleteBook }: CardProps) => {
-  useEffect(() => {
-    getAuthorName();
-  });
-
   const classes = useStyles();
-  const [authorName, setAuthorName] = useState("");
-
-  const getAuthorName = async () => {
-    const name = await genericFetch(
-      `/author/name/${book.authorId}`,
-      "GET",
-      true
-    );
-    setAuthorName(name);
-  };
+  const authorName = useAuthorName(book.authorId);
 
   const handleClick = async () => {
     updateFavBook(user._id, book._id);
