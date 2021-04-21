@@ -20,6 +20,7 @@ import { useStyles } from "./EditBookCardStyles";
 import useDialog from "customHooks/useDialog";
 import useAuthorName from "customHooks/useAuthorName";
 import { Book } from "models/Book";
+import { UNDIFNED_NAME } from "utils/utils";
 type CardProps = {
   book: Book;
   callSetBook: Function;
@@ -35,7 +36,7 @@ const EditBookCard = ({
 }: CardProps) => {
   const classes = useStyles();
   const { open, changeMod } = useDialog();
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(UNDIFNED_NAME);
   const authorName = useAuthorName(book.authorId);
 
   const onsubmit = async () => {

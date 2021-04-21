@@ -11,11 +11,12 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
-import { User } from "models/User";
 import { useStyles } from "./HomePageStyles";
-import { setUser } from "redux/User/UserActionCreators";
+
+import { User } from "models/User";
 import StoreStateType from "redux/StoreStateType";
-import { genericFetch } from "utils/utils";
+import { setUser } from "redux/User/UserActionCreators";
+import { genericFetch, URL, UNDIFNED_ID } from "utils/utils";
 
 const HomePage = () => {
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
@@ -40,8 +41,8 @@ const HomePage = () => {
   };
 
   const handleClick = () => {
-    if (loggedUser._id !== -999) {
-      history.push("/management");
+    if (loggedUser._id !== UNDIFNED_ID) {
+      history.push(URL.MANAGE);
     }
   };
 
@@ -73,7 +74,7 @@ const HomePage = () => {
       <Button
         className={classes.connectButton}
         onClick={handleClick}
-        disabled={loggedUser._id === -999}
+        disabled={loggedUser._id === UNDIFNED_ID}
       >
         התחבר
       </Button>

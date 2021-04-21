@@ -11,6 +11,8 @@ import { useHistory } from "react-router-dom";
 
 import { useStyles } from "./SideBarStyles";
 
+import { URL } from "utils/utils";
+
 const SideBar = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -29,9 +31,9 @@ const SideBar = () => {
       <div>
         <List>
           {[
-            { text: "ניהול משתמשים", path: "/management/users" },
-            { text: "ניהול ספרים", path: "/management/books" },
-            { text: "ניהול סופרים", path: "/management/authors" },
+            { text: "ניהול משתמשים", path: URL.USERS },
+            { text: "ניהול ספרים", path: URL.BOOKS },
+            { text: "ניהול סופרים", path: URL.AUTHORS },
           ].map((item) => (
             <ButtonBase onClick={() => history.push(item.path)}>
               <ListItem button key={item.text}>

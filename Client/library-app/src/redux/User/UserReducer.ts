@@ -1,10 +1,12 @@
-import { User } from "models/User";
 import * as Actions from "./UserActionType";
 
-export const initialState : User = {
-  _id: -999,
-  name: "",
-  favBook: -999,
+import { User } from "models/User";
+import { UNDIFNED_ID, UNDIFNED_NAME } from "utils/utils";
+
+export const initialState: User = {
+  _id: UNDIFNED_ID,
+  name: UNDIFNED_NAME,
+  favBook: UNDIFNED_ID,
 };
 
 const userReducer = (

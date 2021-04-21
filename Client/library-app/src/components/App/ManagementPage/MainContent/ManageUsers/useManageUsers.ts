@@ -3,19 +3,26 @@ import { useState, useEffect } from "react";
 
 import { User } from "models/User";
 import { Book } from "models/Book";
-import { setUser } from "redux/User/UserActionCreators";
+import {
+  UNDIFNED_ID,
+  UNDIFNED_NAME,
+  genericFetch,
+  Toast,
+  ICON,
+  MASSAGES,
+} from "utils/utils";
 import StoreStateType from "redux/StoreStateType";
-import { genericFetch } from "utils/utils";
+import { setUser } from "redux/User/UserActionCreators";
 
 const useManageUsers = () => {
   const [users, setUsers] = useState<Array<User>>([]);
   const [books, setBooks] = useState<Array<Book>>([]);
   const [selectedUser, setSelectedUser] = useState({
-    _id: -999,
-    name: "",
-    favBook: -999,
+    _id: UNDIFNED_ID,
+    name: UNDIFNED_NAME,
+    favBook: UNDIFNED_ID,
   });
-  const [selectedBook, setSelectedBook] = useState(-999);
+  const [selectedBook, setSelectedBook] = useState(UNDIFNED_ID);
   const [userBookList, setUserBookList] = useState<Array<Book>>([]);
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
@@ -45,7 +52,7 @@ const useManageUsers = () => {
   };
 
   const getUserBookList = async () => {
-    if (selectedUser._id !== -999) {
+    if (selectedUser._id !== UNDIFNED_ID) {
       const bookList = await genericFetch(
         `/userBookList/${selectedUser._id}`,
         "GET",
@@ -124,6 +131,11 @@ const useManageUsers = () => {
       );
       const newBook: Book = findBookFromList(books, selectedBook)[0];
       setUserBookList([...userBookList, newBook]);
+    } else {
+      Toast.fire({
+        icon: ICON.WARNING,
+        title: MASSAGES.BOOK_ALREADY_EXIST,
+      });
     }
   };
 

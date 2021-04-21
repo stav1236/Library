@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 
 import { Book } from "models/Book";
 import { Author } from "models/Author";
-import { genericFetch } from "utils/utils";
+import { UNDIFNED_ID, UNDIFNED_NAME, genericFetch } from "utils/utils";
 
 const useManageBooks = () => {
   const [authors, setAuthors] = useState<Array<Author>>([]);
   const [authorBookList, setAuthorBookList] = useState<Array<Book>>([]);
   const [selectedAuthor, setSelectedAuthor] = useState({
-    _id: -999,
-    name: "",
+    _id: UNDIFNED_ID,
+    name: UNDIFNED_NAME,
   });
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const useManageBooks = () => {
   });
 
   const getAuthorBookList = async () => {
-    if (selectedAuthor._id !== -999) {
+    if (selectedAuthor._id !== UNDIFNED_ID) {
       const bookList = await genericFetch(
         `/authorBookList/${selectedAuthor._id}`,
         "GET",

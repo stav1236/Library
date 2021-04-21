@@ -7,11 +7,13 @@ import {
   Box,
   Divider,
 } from "@material-ui/core";
+import { useSelector } from "react-redux";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { useStyles } from "./BookUserCardStyles";
 
 import { User } from "models/User";
+import StoreStateType from "redux/StoreStateType";
 
 type CardProps = {
   user: User;
@@ -20,6 +22,7 @@ type CardProps = {
 
 const UserBookCard = ({ user, deleteUser }: CardProps) => {
   const classes = useStyles();
+  const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   const removeUser = async () => {
     deleteUser(user._id);
@@ -27,20 +30,22 @@ const UserBookCard = ({ user, deleteUser }: CardProps) => {
 
   return (
     <Card className={classes.card}>
-      <Box display="flex">
+      <Box display="flex" justifyContent="center">
         <CardContent className={classes.cardText}>
           <Typography>
             מזהה:{user._id} שם:{user.name}
           </Typography>
         </CardContent>
-        <Divider orientation="vertical" flexItem />
-        <CardActions>
-          <Box display="flex">
-            <IconButton onClick={removeUser}>
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </CardActions>
+        <Box display={user._id === loggedUser._id ? "flex" : "none"}>
+          <Divider orientation="vertical" flexItem />
+          <CardActions>
+            <Box display="flex">
+              <IconButton onClick={removeUser}>
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          </CardActions>
+        </Box>
       </Box>
     </Card>
   );

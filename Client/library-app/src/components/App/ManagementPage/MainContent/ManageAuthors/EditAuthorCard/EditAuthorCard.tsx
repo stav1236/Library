@@ -19,6 +19,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { Author } from "models/Author";
 import useDialog from "customHooks/useDialog";
 import { useStyles } from "./EditAuthorCardStyles";
+import { UNDIFNED_NAME } from "utils/utils";
 
 type CardProps = {
   author: Author;
@@ -35,7 +36,7 @@ const EditBookCard = ({
 }: CardProps) => {
   const classes = useStyles();
   const { open, changeMod } = useDialog();
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(UNDIFNED_NAME);
 
   const onsubmit = async () => {
     setAuthorName(author._id, newName);

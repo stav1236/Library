@@ -11,14 +11,15 @@ import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useStyles } from "./TopBarStyles";
+
 import { User } from "models/User";
+import { genericFetch, UNDIFNED_NAME } from "utils/utils";
 import StoreStateType from "redux/StoreStateType";
-import { genericFetch } from "utils/utils";
 
 const TopBar = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [favBookname, setFavBookname] = useState("");
+  const [favBookname, setFavBookname] = useState(UNDIFNED_NAME);
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import BookUserCard from "./BookUserCard/BookUserCard";
 
 import { Book } from "models/Book";
 import { User } from "models/User";
+import { UNDIFNED_ID } from "utils/utils";
 
 const ManageBooks = () => {
   const classes = useStyles();
@@ -36,7 +37,7 @@ const ManageBooks = () => {
         <Divider variant="middle" />
         <Grid item>
           <Box
-            display={selectedBook._id !== -999 ? "flex" : "none"}
+            display={selectedBook._id !== UNDIFNED_ID ? "flex" : "none"}
             alignItems="ceneter"
           >
             <Typography className={classes.marginTop}>

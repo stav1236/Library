@@ -10,14 +10,18 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
+import useManageUsers from "./useManageUsers";
 import { useStyles } from "./ManageUserStyles";
 import EditUserCard from "./EditUserCard/EditUserCard";
 import UserBookCard from "./UserBookCard/UserBookCard";
+
 import { User } from "models/User";
 import { Book } from "models/Book";
+import { UNDIFNED_ID } from "utils/utils";
+import StoreStateType from "redux/StoreStateType";
 import useDialog from "customHooks/useDialog";
-import useManageUsers from "./useManageUsers";
 
 const ManageUsers = () => {
   const classes = useStyles();
@@ -35,6 +39,7 @@ const ManageUsers = () => {
     deleteUser,
     insertBookToBookList,
   } = useManageUsers();
+  const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   const onsubmit = async () => {
     await insertBookToBookList();
@@ -58,15 +63,19 @@ const ManageUsers = () => {
         <Divider variant="middle" />
         <Grid item>
           <Box
-            display={selectedUser._id !== -999 ? "flex" : "none"}
+            display={selectedUser._id !== UNDIFNED_ID ? "flex" : "none"}
             justifyContent="space-between"
             alignItems="ceneter"
             className={classes.marginTop}
           >
             <Typography>הספרים שקרא {selectedUser.name}:</Typography>
-            <Button className={classes.addBookButton} onClick={changeMod}>
-              הוסף ספר
-            </Button>
+            <Box
+              display={selectedUser._id === loggedUser._id ? "flex" : "none"}
+            >
+              <Button className={classes.addBookButton} onClick={changeMod}>
+                הוסף ספר
+              </Button>
+            </Box>
             <Dialog open={open} onClose={changeMod}>
               <DialogContent>
                 <Box display="flex">

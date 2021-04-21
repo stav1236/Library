@@ -21,6 +21,7 @@ import { User } from "models/User";
 import { useStyles } from "./EditUserCardStyles";
 import StoreStateType from "redux/StoreStateType";
 import useDialog from "customHooks/useDialog";
+import { Toast, ICON, UNDIFNED_NAME, MASSAGES } from "utils/utils";
 
 type CardProps = {
   id: Number;
@@ -39,7 +40,7 @@ const EditUserCard = ({
 }: CardProps) => {
   const classes = useStyles();
   const { open, changeMod } = useDialog();
-  const [newName, setNewName] = useState("");
+  const [newName, setNewName] = useState(UNDIFNED_NAME);
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   const onsubmit = async () => {
@@ -54,6 +55,11 @@ const EditUserCard = ({
   const removeUser = async () => {
     if (loggedUser._id !== id) {
       deleteUser(id);
+    } else {
+      Toast.fire({
+        icon: ICON.WARNING,
+        title: MASSAGES.CANT_DELETE_CONNECTED,
+      });
     }
   };
 

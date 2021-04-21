@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { genericFetch } from "utils/utils";
+
+import { genericFetch, UNDIFNED_NAME } from "utils/utils";
 
 const useAuthorName = (authorId: Number) => {
-  const [authorName, setAuthorName] = useState("");
+  const [authorName, setAuthorName] = useState(UNDIFNED_NAME);
 
   useEffect(() => {
     getAuthorName();

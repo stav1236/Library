@@ -8,6 +8,7 @@ import { BrowserRouter, Redirect, Route } from "react-router-dom";
 import { store } from "redux/store";
 import HomePage from "./HomePage/HomePage";
 import ManagementPage from "./ManagementPage/ManagementPage";
+import { URL } from "utils/utils";
 
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 const rtlTheme = createMuiTheme({ direction: "rtl" });
@@ -17,14 +18,14 @@ const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Redirect exact from="/" to="home" />
-        <Route path="/home">
+        <Route path={URL.HOME}>
           <StylesProvider jss={jss}>
             <ThemeProvider theme={rtlTheme}>
               <HomePage />
-            </ThemeProvider>{" "}
+            </ThemeProvider>
           </StylesProvider>
         </Route>
-        <Route path="/management">
+        <Route path={URL.MANAGE}>
           <ManagementPage />
         </Route>
       </BrowserRouter>
