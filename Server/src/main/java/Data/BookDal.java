@@ -68,4 +68,5 @@ public class BookDal {
 
         dataBase.updateByQuery(query, updateObject, booksCollection);
     }
+
 }

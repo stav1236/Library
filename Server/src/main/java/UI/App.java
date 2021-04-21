@@ -68,6 +68,10 @@ public final class App {
             Integer bookId = Integer.parseInt(request.params(":bookId"));
             return gsonIncludedAllFields.toJson(userBusiness.addBookToUser(userId, bookId));
         }));
+        Spark.get("/bookUserList/:id", ((request, response) -> {
+            Integer bookId = Integer.parseInt(request.params(":id"));
+            return gsonIncludedAllFields.toJson(userBusiness.getBookUserList(bookId));
+        }));
         //Book API
         Spark.get("/books", ((request, response) ->
                 gsonIncludedAllFields.toJson(bookBusiness.getAllBooks())));
@@ -93,7 +97,6 @@ public final class App {
             bookBusiness.updateBookName(bookId, name);
             return gsonIncludedAllFields.toJson(bookBusiness.getBookById(bookId));
         }));
-
         //author API
         Spark.get("/authors", ((request, response) ->
                 gsonIncludedAllFields.toJson(authorBusiness.getAllAuthors())));

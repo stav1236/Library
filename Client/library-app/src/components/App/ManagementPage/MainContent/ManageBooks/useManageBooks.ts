@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 
 import { Book } from "models/Book";
+import { User } from "models/User";
 import { genericFetch } from "utils/utils";
 
 const useManageBooks = () => {
   const [books, setBooks] = useState<Array<Book>>([]);
+  const [bookUserList, setBookUserList] = useState<Array<User>>([]);
   const [selectedBook, setSelectedBook] = useState({
     _id: -999,
     name: "",
@@ -13,7 +15,19 @@ const useManageBooks = () => {
 
   useEffect(() => {
     getAllBooks();
+    getBookUserList();
   });
+
+  const getBookUserList = async () => {
+    if (selectedBook._id !== -999) {
+      const bookList = await genericFetch(
+        `/bookUserList/${selectedBook._id}`,
+        "GET",
+        true
+      );
+      setBookUserList(bookList);
+    }
+  };
 
   const getAllBooks = async () => {
     if (books.length === 0) {
@@ -54,10 +68,21 @@ const useManageBooks = () => {
     setBooks(books.filter((book: Book) => book._id !== bookId));
   };
 
+  const deleteUser = async (userId: number) => {
+    await genericFetch(
+      `/remove/user/book/${userId}/${selectedBook._id}`,
+      "POST",
+      false
+    );
+    setBookUserList(bookUserList.filter((user: User) => user._id !== userId));
+  };
+
   return {
     books,
     selectedBook,
+    bookUserList,
     deleteBook,
+    deleteUser,
     getSelectedBook,
     updateBookName,
   };

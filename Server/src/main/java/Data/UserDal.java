@@ -35,6 +35,12 @@ public class UserDal {
         return gson.fromJson(result.toString(), User.class);
     }
 
+    public List<DBObject> findMatchList(Integer bookId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("bookId", bookId);
+        return dataBase.findByQuery(query,usersBooksCollection);
+    }
+
     public boolean removeBookFromUser(Integer userId, Integer bookId) {
         BasicDBObject query = new BasicDBObject();
         query.put("userId", userId);

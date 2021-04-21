@@ -1,16 +1,21 @@
 import { Divider, Grid, Typography, Box } from "@material-ui/core";
 
+import useManageBooks from "./useManageBooks";
 import { useStyles } from "./ManageBookStyles";
 import EditBookCard from "./EditBookCard/EditBookCard";
+import BookUserCard from "./BookUserCard/BookUserCard";
+
 import { Book } from "models/Book";
-import useManageBooks from "./useManageBooks";
+import { User } from "models/User";
 
 const ManageBooks = () => {
   const classes = useStyles();
   const {
     books,
     selectedBook,
+    bookUserList,
     deleteBook,
+    deleteUser,
     getSelectedBook,
     updateBookName,
   } = useManageBooks();
@@ -38,6 +43,9 @@ const ManageBooks = () => {
               הקוראים של {selectedBook.name}:
             </Typography>
           </Box>
+          {bookUserList.map((user: User) => (
+            <BookUserCard user={user} deleteUser={deleteUser} />
+          ))}
         </Grid>
       </Grid>
     </div>
