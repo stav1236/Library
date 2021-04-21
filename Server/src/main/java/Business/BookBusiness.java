@@ -40,6 +40,10 @@ public class BookBusiness {
         return books;
     }
 
+    public ArrayList<Book> getAuthorBookList(Integer authorId) {
+        return dataLayer.findBooksByAuthor(authorId);
+    }
+
     public Book deleteBookById(Integer bookId) {
         dataLayer.removeBookFromUsers(bookId);
         return dataLayer.removeBookById(bookId);

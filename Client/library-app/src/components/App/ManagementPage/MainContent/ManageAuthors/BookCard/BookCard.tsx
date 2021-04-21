@@ -1,4 +1,4 @@
-import { Typography, Card, CardContent, Box } from "@material-ui/core";
+import { Typography, Card, CardContent } from "@material-ui/core";
 
 import { useStyles } from "./BookCardStyles";
 
@@ -13,13 +13,11 @@ const BookCard = ({ book }: CardProps) => {
 
   return (
     <Card className={classes.card}>
-      <Box display="flex">
-        <CardContent>
-          <Typography>
-            מזהה:{book._id} שם:{book.name}
-          </Typography>
-        </CardContent>
-      </Box>
+      <CardContent>
+        <Typography>
+          מזהה:{book._id} שם:{book.name}
+        </Typography>
+      </CardContent>
     </Card>
   );
 };

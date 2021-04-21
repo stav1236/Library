@@ -83,6 +83,10 @@ public final class App {
             Integer userId = Integer.parseInt(request.params(":id"));
             return gsonIncludedAllFields.toJson(bookBusiness.getUserBookList(userId));
         }));
+        Spark.get("/authorBookList/:id", ((request, response) -> {
+            Integer authorId = Integer.parseInt(request.params(":id"));
+            return gsonIncludedAllFields.toJson(bookBusiness.getAuthorBookList(authorId));
+        }));
         Spark.get("/book/:id", ((request, response) -> {
             Integer bookId = Integer.parseInt(request.params(":id"));
             return gsonIncludedAllFields.toJson(bookBusiness.getBookById(bookId));
@@ -100,9 +104,23 @@ public final class App {
         //author API
         Spark.get("/authors", ((request, response) ->
                 gsonIncludedAllFields.toJson(authorBusiness.getAllAuthors())));
+        Spark.get("/author/:id", ((request, response) -> {
+            Integer authorId = Integer.parseInt(request.params(":id"));
+            return gsonIncludedAllFields.toJson(authorBusiness.getAuthorById(authorId));
+        }));
         Spark.get("/author/name/:id", ((request, response) -> {
             Integer authorId = Integer.parseInt(request.params(":id"));
             return gsonIncludedAllFields.toJson(authorBusiness.getAuthorsNameById(authorId));
+        }));
+        Spark.post("/update/author/:authorId/:name", ((request, response) -> {
+            Integer authorId = Integer.parseInt(request.params(":authorId"));
+            String name = request.params(":name");
+            authorBusiness.updateAuthorName(authorId, name);
+            return gsonIncludedAllFields.toJson(authorBusiness.getAuthorById(authorId));
+        }));
+        Spark.post("/remove/author/:authorId", ((request, response) -> {
+            Integer authorId = Integer.parseInt(request.params(":authorId"));
+            return gsonIncludedAllFields.toJson(authorBusiness.deleteAuthorById(authorId));
         }));
     }
 }

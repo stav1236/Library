@@ -32,10 +32,24 @@ public class BookDal {
         return books;
     }
 
+    public ArrayList<Book> findBooksByAuthor(Integer authorId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("authorId", authorId);
+        List<DBObject> result = dataBase.findByQuery(query, booksCollection);
+        ArrayList<Book> books = new ArrayList<>();
+
+        for (Object book : result) {
+            Book tempBook = gson.fromJson(book.toString(), Book.class);
+            books.add(tempBook);
+        }
+
+        return books;
+    }
+
     public List<DBObject> findMatchList(Integer userId) {
         BasicDBObject query = new BasicDBObject();
         query.put("userId", userId);
-        return dataBase.findByQuery(query,usersBooksCollection);
+        return dataBase.findByQuery(query, usersBooksCollection);
     }
 
     public Book findBookById(Integer _id) {

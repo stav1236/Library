@@ -63,7 +63,7 @@ const useManageBooks = () => {
   };
 
   const deleteAuthor = async (authorId: number) => {
-    await genericFetch(`/remove/book/${authorId}`, "POST", false);
+    await genericFetch(`/remove/author/${authorId}`, "POST", false);
     setAuthors(authors.filter((author: Author) => author._id !== authorId));
   };
 

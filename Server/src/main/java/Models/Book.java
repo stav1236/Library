@@ -11,6 +11,10 @@ public class Book {
         this.authorId = authorId;
     }
 
+    public Integer getId() {
+        return _id;
+    }
+
     public String getName() {
         return name;
     }
