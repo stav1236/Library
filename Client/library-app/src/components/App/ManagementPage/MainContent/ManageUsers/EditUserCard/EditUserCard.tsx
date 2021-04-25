@@ -21,7 +21,7 @@ import { User } from "models/User";
 import { useStyles } from "./EditUserCardStyles";
 import StoreStateType from "redux/StoreStateType";
 import useDialog from "customHooks/useDialog";
-import { Toast, ICON, UNDIFNED_NAME, MASSAGES } from "utils/utils";
+import { Toast, ICON, MASSAGES } from "utils/utils";
 
 type CardProps = {
   id: Number;
@@ -40,7 +40,7 @@ const EditUserCard = ({
 }: CardProps) => {
   const classes = useStyles();
   const { open, changeMod } = useDialog();
-  const [newName, setNewName] = useState(UNDIFNED_NAME);
+  const [newName, setNewName] = useState(name);
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   const onsubmit = async () => {

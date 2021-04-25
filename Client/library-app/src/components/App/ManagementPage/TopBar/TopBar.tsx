@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Grid,
-  Typography,
-  Button,
-  Box,
-  Avatar,
-} from "@material-ui/core";
+import { AppBar, Typography, Button, Box, Avatar } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -14,6 +7,8 @@ import { useStyles } from "./TopBarStyles";
 import { User } from "models/User";
 
 import StoreStateType from "redux/StoreStateType";
+import { setUser } from "redux/User/UserActionCreators";
+import { UNDIFNED_ID, UNDIFNED_NAME } from "utils/utils";
 
 type TopBarProps = {
   favBookName: string;
@@ -25,6 +20,7 @@ const TopBar = ({ favBookName }: TopBarProps) => {
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
 
   const handleClick = () => {
+    setUser({ _id: UNDIFNED_ID, name: UNDIFNED_NAME, favBook: UNDIFNED_ID });
     history.push("/home");
   };
 

@@ -53,7 +53,7 @@ const useManageBooks = () => {
       if (author._id === newAuthor._id) {
         author.name = newAuthor.name;
       }
-      newAuthor.push(author);
+      newAuthors.push(author);
     });
 
     setAuthors(newAuthors);

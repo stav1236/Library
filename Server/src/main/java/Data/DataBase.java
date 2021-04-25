@@ -5,8 +5,8 @@ import com.mongodb.*;
 import java.util.List;
 
 public class DataBase {
-    public DataBase() {
-    }
+    protected MongoClient mongoClient = new MongoClient();
+    protected DB stavDB = mongoClient.getDB("StavDB");
 
     public List<DBObject> findByQuery(BasicDBObject query, DBCollection dbCollection) {
         return dbCollection.find(query).toArray();
@@ -30,7 +30,26 @@ public class DataBase {
         dbCollection.remove(query);
     }
 
+    public DBObject removeAndFindById(Integer id, DBCollection dbCollection) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", id);
+        return dbCollection.findAndRemove(query);
+    }
+
     public void updateByQuery(BasicDBObject query, BasicDBObject updateObject, DBCollection dbCollection) {
+        dbCollection.update(query, updateObject);
+    }
+
+    public void updateByProperty(Integer id, String property, Object updateValue, DBCollection dbCollection) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", id);
+
+        BasicDBObject newDocument = new BasicDBObject();
+        newDocument.put(property, updateValue);
+
+        BasicDBObject updateObject = new BasicDBObject();
+        updateObject.put("$set", newDocument);
+
         dbCollection.update(query, updateObject);
     }
 

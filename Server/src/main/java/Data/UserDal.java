@@ -7,10 +7,7 @@ import com.mongodb.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDal {
-    private DataBase dataBase = new DataBase();
-    private MongoClient mongoClient = new MongoClient();
-    private DB stavDB = mongoClient.getDB("StavDB");
+public class UserDal extends DataBase {
     private DBCollection usersCollection = stavDB.getCollection("Users");
     private DBCollection usersBooksCollection = stavDB.getCollection("UsersBooks");
     private Gson gson = new Gson();
@@ -19,7 +16,7 @@ public class UserDal {
     }
 
     public ArrayList<User> findAllUsers() {
-        List<DBObject> result = dataBase.findALl(usersCollection);
+        List<DBObject> result = findALl(usersCollection);
         ArrayList<User> users = new ArrayList<>();
 
         for (Object user : result) {
@@ -31,61 +28,41 @@ public class UserDal {
     }
 
     public User findUserById(Integer id) {
-        DBObject result = dataBase.findById(id, usersCollection);
+        DBObject result = findById(id, usersCollection);
         return gson.fromJson(result.toString(), User.class);
     }
 
     public List<DBObject> findMatchList(Integer bookId) {
         BasicDBObject query = new BasicDBObject();
         query.put("bookId", bookId);
-        return dataBase.findByQuery(query,usersBooksCollection);
+        return findByQuery(query, usersBooksCollection);
     }
 
     public boolean removeBookFromUser(Integer userId, Integer bookId) {
         BasicDBObject query = new BasicDBObject();
         query.put("userId", userId);
         query.put("bookId", bookId);
-        DBObject result = dataBase.removeAndFindByQuery(query, usersBooksCollection);
+        DBObject result = removeAndFindByQuery(query, usersBooksCollection);
         return gson.fromJson(result.toString(), User.class) != null;
     }
 
     public User removeUserById(Integer userId) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", userId);
-        DBObject result = dataBase.removeAndFindByQuery(query, usersCollection);
+        DBObject result = removeAndFindById(userId, usersCollection);
         return gson.fromJson(result.toString(), User.class);
     }
 
     public void removeUserBookList(Integer userId) {
         BasicDBObject query = new BasicDBObject();
         query.put("userId", userId);
-        dataBase.removeByQuery(query, usersBooksCollection);
+        removeByQuery(query, usersBooksCollection);
     }
 
     public void updateFavBook(Integer userId, Integer bookId) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", userId);
-
-        BasicDBObject newDocument = new BasicDBObject();
-        newDocument.put("favBook", bookId);
-
-        BasicDBObject updateObject = new BasicDBObject();
-        updateObject.put("$set", newDocument);
-
-        dataBase.updateByQuery(query, updateObject, usersCollection);
+        updateByProperty(userId, "favBook", bookId, usersCollection);
     }
 
     public void updateName(Integer userId, String name) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", userId);
-
-        BasicDBObject newDocument = new BasicDBObject();
-        newDocument.put("name", name);
-
-        BasicDBObject updateObject = new BasicDBObject();
-        updateObject.put("$set", newDocument);
-
-        dataBase.updateByQuery(query, updateObject, usersCollection);
+        updateByProperty(userId, "name", name, usersCollection);
     }
 
     public WriteResult insertBookToUser(Integer userId, Integer bookId) {
@@ -93,6 +70,6 @@ public class UserDal {
         newDocument.put("userId", userId);
         newDocument.put("bookId", bookId);
 
-        return dataBase.insertOneDocument(newDocument,usersBooksCollection);
+        return insertOneDocument(newDocument, usersBooksCollection);
     }
 }
