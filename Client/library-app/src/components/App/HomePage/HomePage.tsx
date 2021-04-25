@@ -56,7 +56,7 @@ const HomePage = () => {
       width="100vw"
       height="80vh"
     >
-      <img src={logo} />
+      <img src={logo} alt="siteLogo" />
       <FormControl className={classes.formControl}>
         <InputLabel>בחר משתמש להתחברות..</InputLabel>
         <Select

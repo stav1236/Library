@@ -16,7 +16,7 @@ const useManageBooks = () => {
   useEffect(() => {
     getAllBooks();
     getBookUserList();
-  });
+  }, [selectedBook]);
 
   const getBookUserList = async () => {
     if (selectedBook._id !== UNDIFNED_ID) {

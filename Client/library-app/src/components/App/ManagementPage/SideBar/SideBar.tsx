@@ -13,6 +13,12 @@ import { useStyles } from "./SideBarStyles";
 
 import { URL } from "utils/utils";
 
+const pathsList = [
+  { text: "ניהול משתמשים", path: URL.USERS },
+  { text: "ניהול ספרים", path: URL.BOOKS },
+  { text: "ניהול סופרים", path: URL.AUTHORS },
+];
+
 const SideBar = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -28,22 +34,19 @@ const SideBar = () => {
       }}
     >
       <Toolbar />
-      <div>
-        <List>
-          {[
-            { text: "ניהול משתמשים", path: URL.USERS },
-            { text: "ניהול ספרים", path: URL.BOOKS },
-            { text: "ניהול סופרים", path: URL.AUTHORS },
-          ].map((item) => (
-            <ButtonBase onClick={() => history.push(item.path)}>
-              <ListItem button key={item.text}>
-                <ListItemText primary={item.text} />
-              </ListItem>
-              <Divider />
-            </ButtonBase>
-          ))}
-        </List>
-      </div>
+      <List>
+        {pathsList.map((item) => (
+          <ButtonBase
+            className={classes.drawer}
+            onClick={() => history.push(item.path)}
+          >
+            <ListItem button key={item.text}>
+              <ListItemText primary={item.text} />
+            </ListItem>
+            <Divider />
+          </ButtonBase>
+        ))}
+      </List>
     </Drawer>
   );
 };

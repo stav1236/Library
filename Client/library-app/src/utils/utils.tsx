@@ -17,15 +17,16 @@ export const genericFetch = async (
 };
 
 export enum URL {
-  HOME = "/HOME",
-  MANAGE = "/MANAGEMENT",
-  USERS = "/MANAGEMENT/USERS",
-  BOOKS = "/MANAGEMENT/BOOKS",
-  AUTHORS = "/MANAGEMENT/AUTHORS",
+  HOME = "/home",
+  MANAGE = "/management",
+  USERS = "/management/users",
+  BOOKS = "/management/books",
+  AUTHORS = "/management/authors",
 }
 
 export const UNDIFNED_ID = -999;
 export const UNDIFNED_NAME = "";
+export const UNDIFNED_BOOK_NAME = "אין ספר מועדף";
 
 export const Toast = Swal.mixin({
   toast: true,

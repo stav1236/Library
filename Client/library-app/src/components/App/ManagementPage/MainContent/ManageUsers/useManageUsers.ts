@@ -30,7 +30,7 @@ const useManageUsers = () => {
     getAllUsers();
     getAllBooks();
     getUserBookList();
-  });
+  }, [selectedUser]);
 
   const getAllUsers = async () => {
     if (users.length === 0) {
@@ -63,6 +63,9 @@ const useManageUsers = () => {
   };
 
   const updateFavBook = async (userId: number, bookId: number) => {
+    if (selectedUser.favBook === bookId) {
+      bookId = UNDIFNED_ID;
+    }
     const newUser = await genericFetch(
       `/update/favBook/${userId}/${bookId}`,
       "POST",

@@ -7,33 +7,22 @@ import {
   Avatar,
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import { useStyles } from "./TopBarStyles";
 
 import { User } from "models/User";
-import { genericFetch, UNDIFNED_NAME } from "utils/utils";
+
 import StoreStateType from "redux/StoreStateType";
 
-const TopBar = () => {
+type TopBarProps = {
+  favBookName: string;
+};
+
+const TopBar = ({ favBookName }: TopBarProps) => {
   const classes = useStyles();
   const history = useHistory();
-  const [favBookname, setFavBookname] = useState(UNDIFNED_NAME);
   const loggedUser = useSelector<StoreStateType, User>((state) => state.user);
-
-  useEffect(() => {
-    getFavBookName();
-  });
-
-  const getFavBookName = async () => {
-    const bookName = await genericFetch(
-      `/book/name/${loggedUser.favBook}`,
-      "GET",
-      true
-    );
-    setFavBookname(bookName);
-  };
 
   const handleClick = () => {
     history.push("/home");
@@ -41,7 +30,12 @@ const TopBar = () => {
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
-      <Grid container alignItems="center" justify="space-between">
+      <Box
+        display="flex"
+        height="10vh"
+        width="100vw"
+        justifyContent="space-between"
+      >
         <Box display="flex" alignItems="center">
           <Avatar className={classes.bookLogo}></Avatar>
           <Typography className={classes.header}>הספריה </Typography>
@@ -52,14 +46,14 @@ const TopBar = () => {
               שלום {loggedUser.name}!
             </Typography>
             <Typography className={classes.favBookMassage}>
-              הספר המועדף עליך: {favBookname}
+              הספר המועדף עליך: {favBookName}
             </Typography>
           </div>
           <Button className={classes.disconnectButton} onClick={handleClick}>
             התנתק
           </Button>
         </Box>
-      </Grid>
+      </Box>
     </AppBar>
   );
 };
