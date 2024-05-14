@@ -43,7 +43,7 @@ After installing the prerequisites, follow these steps:
 
 2. **Server Side (Java Spark)**:
    - Navigate to the server folder.
-   - Execute `mvn clean install` to build the project.
+   - Execute `mvn clean install` to install dependencies.
    - Run the server in development mode. (`Server/src/main/java/UI/App.java` is the entry point.)
 
 3. **Client Side (React)**:
